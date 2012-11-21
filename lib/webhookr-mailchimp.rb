@@ -21,19 +21,28 @@ module Webhookr
         end
 
         def process(raw_response)
-          p = parse(raw_response)
-          return [ Webhookr::AdapterResponse.new(p[EVENT_KEY], RecursiveOpenStruct.new(p)) ]
+          [*parse(raw_response)].collect do |p|
+            Webhookr::AdapterResponse.new(p.send(EVENT_KEY), p)
+          end
         end
 
         private
 
         def parse(raw_response)
-          assert_valid_packet(Rack::Utils.parse_nested_query(raw_response))
+          RecursiveOpenStruct.new(
+            assert_valid_packet(Rack::Utils.parse_nested_query(raw_response))
+          )
         end
 
         def assert_valid_packet(parsed_response)
-          raise(Webhookr::InvalidPayloadError, "Missing event key '#{EVENT_KEY}' in packet") unless parsed_response[EVENT_KEY].present?
-          raise(Webhookr::InvalidPayloadError, "No data key '#{PAYLOAD_KEY}' in the response") unless parsed_response[PAYLOAD_KEY].present?
+          raise(Webhookr::InvalidPayloadError,
+                "Missing event key '#{EVENT_KEY}' in packet"
+          ) unless parsed_response[EVENT_KEY].present?
+
+          raise(Webhookr::InvalidPayloadError,
+                "No data key '#{PAYLOAD_KEY}' in the response"
+          ) unless parsed_response[PAYLOAD_KEY].present?
+
           parsed_response
         end
 
