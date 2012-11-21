@@ -6,7 +6,7 @@ require 'webhookr-mailchimp/version'
 Gem::Specification.new do |gem|
   gem.name          = "webhookr-mailchimp"
   gem.version       = Webhookr::Services::Mailchimp::VERSION
-  gem.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  gem.required_rubygems_version = Gem::Requirement.new(">= 0") if gem.respond_to? :required_rubygems_version=
   gem.authors       = ["Gerry Power"]
   gem.email         = ["code@zoocasa.com"]
   gem.description   = "A webhookr extension to support Mailchimp webhooks."
