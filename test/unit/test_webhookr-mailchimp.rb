@@ -29,7 +29,7 @@ describe Webhookr::Services::Mailchimp::Adapter do
   subject { Webhookr::Services::Mailchimp::Adapter.new }
 
   it "must support process" do
-    subject.must_respond_to(:process)
+    Webhookr::Services::Mailchimp::Adapter.must_respond_to(:process)
   end
 
   it "should not return an error for a valid packet" do
@@ -54,13 +54,13 @@ describe Webhookr::Services::Mailchimp::Adapter do
     }.must_raise(Webhookr::InvalidPayloadError)
   end
 
-  it "should raise MailObserver::InvalidProtocolError for a missing event type" do
+  it "should raise MailObserver::InvalidPayloadError for a missing event type" do
     lambda {
       subject.process("data[email]=gerry%2Bagent2@zoocasa.com")
     }.must_raise(Webhookr::InvalidPayloadError)
   end
 
-  it "should raise MailObserver::InvalidProtocolError for a missing data packet" do
+  it "should raise MailObserver::InvalidPayloadError for a missing data packet" do
     lambda {
       subject.process("type=unsubscribe")
     }.must_raise(Webhookr::InvalidPayloadError)
