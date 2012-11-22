@@ -1,5 +1,5 @@
 
-$: << File.dirname(__FILE__)
+$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 describe Webhookr::Mailchimp::Adapter do
