@@ -4,16 +4,12 @@ require "recursive_open_struct"
 
 module Webhookr
   module Mailchimp
-    extend ActiveSupport::Autoload
-
-    autoload :VERSION
-
-    mattr_accessor :config
-    self.config = ActiveSupport::OrderedOptions.new
-
     class Adapter
+      SERVICE_NAME = 'mailchimp'
       EVENT_KEY = "type"
       PAYLOAD_KEY = "data"
+
+      include Webhookr::Services::Adapter::Base
 
       def self.process(raw_response)
         new.process(raw_response)

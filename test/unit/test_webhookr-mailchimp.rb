@@ -2,22 +2,6 @@
 $: << File.dirname(__FILE__)
 require 'test_helper'
 
-describe Webhookr::Mailchimp do
-  subject { Webhookr::Mailchimp }
-  
-  describe "configuration" do
-    
-    it "must respond to config" do
-      subject.must_respond_to(:config)
-    end
-
-    it "must respond to config.callback" do
-      subject.config.must_respond_to(:callback)
-    end
-  end
-  
-end
-
 describe Webhookr::Mailchimp::Adapter do
   
   before do
