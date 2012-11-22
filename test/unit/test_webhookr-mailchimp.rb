@@ -26,11 +26,19 @@ describe Webhookr::Mailchimp::Adapter do
     @valid_response = "type=#{@event_type}&fired_at=#{@fired_at}&data[email]=gerry%2Bagent2@zoocasa.com"
   end
 
-  subject { Webhookr::Mailchimp::Adapter.new }
+  describe "the class" do
+
+  subject { Webhookr::Mailchimp::Adapter }
 
   it "must support process" do
-    Webhookr::Mailchimp::Adapter.must_respond_to(:process)
+    subject.must_respond_to(:process)
   end
+
+  end
+
+  describe "the instance" do
+
+  subject { Webhookr::Mailchimp::Adapter.new }
 
   it "should not return an error for a valid packet" do
     lambda {
@@ -64,6 +72,8 @@ describe Webhookr::Mailchimp::Adapter do
     lambda {
       subject.process("type=unsubscribe")
     }.must_raise(Webhookr::InvalidPayloadError)
+  end
+
   end
 
 end
