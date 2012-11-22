@@ -2,8 +2,8 @@
 $: << File.dirname(__FILE__)
 require 'test_helper'
 
-describe Webhookr::Services::Mailchimp do
-  subject { Webhookr::Services::Mailchimp }
+describe Webhookr::Mailchimp do
+  subject { Webhookr::Mailchimp }
   
   describe "configuration" do
     
@@ -18,7 +18,7 @@ describe Webhookr::Services::Mailchimp do
   
 end
 
-describe Webhookr::Services::Mailchimp::Adapter do
+describe Webhookr::Mailchimp::Adapter do
   
   before do
     @event_type = "unsubscribe"
@@ -26,10 +26,10 @@ describe Webhookr::Services::Mailchimp::Adapter do
     @valid_response = "type=#{@event_type}&fired_at=#{@fired_at}&data[email]=gerry%2Bagent2@zoocasa.com"
   end
 
-  subject { Webhookr::Services::Mailchimp::Adapter.new }
+  subject { Webhookr::Mailchimp::Adapter.new }
 
   it "must support process" do
-    Webhookr::Services::Mailchimp::Adapter.must_respond_to(:process)
+    Webhookr::Mailchimp::Adapter.must_respond_to(:process)
   end
 
   it "should not return an error for a valid packet" do

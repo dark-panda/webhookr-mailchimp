@@ -3,7 +3,6 @@ require "active_support/core_ext/module/attribute_accessors"
 require "recursive_open_struct"
 
 module Webhookr
-  module Services
     module Mailchimp
       extend ActiveSupport::Autoload
 
@@ -49,5 +48,4 @@ module Webhookr
       end
 
     end
-  end
 end
