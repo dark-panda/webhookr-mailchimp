@@ -25,7 +25,8 @@ module Webhookr
 
       def parse(raw_response)
         RecursiveOpenStruct.new(
-          assert_valid_packet(Rack::Utils.parse_nested_query(raw_response))
+          assert_valid_packet(Rack::Utils.parse_nested_query(raw_response)),
+          :recurse_over_arrays => true
         )
       end
 
