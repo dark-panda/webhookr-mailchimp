@@ -3,49 +3,49 @@ require "active_support/core_ext/module/attribute_accessors"
 require "recursive_open_struct"
 
 module Webhookr
-    module Mailchimp
-      extend ActiveSupport::Autoload
+  module Mailchimp
+    extend ActiveSupport::Autoload
 
-      autoload :VERSION
+    autoload :VERSION
 
-      mattr_accessor :config
-      self.config = ActiveSupport::OrderedOptions.new
+    mattr_accessor :config
+    self.config = ActiveSupport::OrderedOptions.new
 
-      class Adapter
-        EVENT_KEY = "type"
-        PAYLOAD_KEY = "data"
+    class Adapter
+      EVENT_KEY = "type"
+      PAYLOAD_KEY = "data"
 
-        def self.process(raw_response)
-          new.process(raw_response)
+      def self.process(raw_response)
+        new.process(raw_response)
+      end
+
+      def process(raw_response)
+        [*parse(raw_response)].collect do |p|
+          Webhookr::AdapterResponse.new(p.send(EVENT_KEY), p)
         end
+      end
 
-        def process(raw_response)
-          [*parse(raw_response)].collect do |p|
-            Webhookr::AdapterResponse.new(p.send(EVENT_KEY), p)
-          end
-        end
+      private
 
-        private
+      def parse(raw_response)
+        RecursiveOpenStruct.new(
+          assert_valid_packet(Rack::Utils.parse_nested_query(raw_response))
+        )
+      end
 
-        def parse(raw_response)
-          RecursiveOpenStruct.new(
-            assert_valid_packet(Rack::Utils.parse_nested_query(raw_response))
-          )
-        end
+      def assert_valid_packet(parsed_response)
+        raise(Webhookr::InvalidPayloadError,
+              "Missing event key '#{EVENT_KEY}' in packet"
+        ) unless parsed_response[EVENT_KEY].present?
 
-        def assert_valid_packet(parsed_response)
-          raise(Webhookr::InvalidPayloadError,
-                "Missing event key '#{EVENT_KEY}' in packet"
-          ) unless parsed_response[EVENT_KEY].present?
+        raise(Webhookr::InvalidPayloadError,
+              "No data key '#{PAYLOAD_KEY}' in the response"
+        ) unless parsed_response[PAYLOAD_KEY].present?
 
-          raise(Webhookr::InvalidPayloadError,
-                "No data key '#{PAYLOAD_KEY}' in the response"
-          ) unless parsed_response[PAYLOAD_KEY].present?
-
-          parsed_response
-        end
-
+        parsed_response
       end
 
     end
+
+  end
 end
