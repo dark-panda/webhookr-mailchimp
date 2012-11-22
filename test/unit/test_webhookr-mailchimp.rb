@@ -12,7 +12,7 @@ describe Webhookr::Mailchimp::Adapter do
 
   describe "the class" do
 
-  subject { Webhookr::Mailchimp::Adapter }
+    subject { Webhookr::Mailchimp::Adapter }
 
     it "must support process" do
       subject.must_respond_to(:process)
