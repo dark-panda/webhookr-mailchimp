@@ -1,7 +1,18 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in webhookr-mailchimp.gemspec
 gemspec
 
-gem 'webhookr', :path => "../webhookr"
-gem 'recursive-open-struct', "0.3.1", :github => 'gerrypower/recursive-open-struct'
+gem "recursive-open-struct", "0.3.1", :github => "gerrypower/recursive-open-struct"
+gem "rake", "~> 10.0"
+gem "minitest"
+gem "minitest-reporters"
+gem "em-websocket"
+gem "guard"
+gem "guard-minitest"
+gem "guard-markdown"
+gem "guard-livereload"
+
+if RbConfig::CONFIG['host_os'] =~ /^darwin/
+  gem "rb-fsevent"
+  gem "growl"
+end

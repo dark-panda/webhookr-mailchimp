@@ -1,15 +1,12 @@
-# A sample Guardfile
-# More info at https://github.com/guard/guard#readme
 
-guard 'minitest' do
-  # with Minitest::Unit
-  watch(%r|^test/(.*)\/?test_(.*)\.rb|)
-  watch(%r|^lib/(.*)([^/]+)\.rb|)     { |m| "test/#{m[1]}test_#{m[2]}.rb" }
-  watch(%r|^test/test_helper\.rb|)    { "test" }
+guard 'minitest', :test_folders => 'test', :test_file_patterns => '*_tests.rb' do
+  watch(%r|^test/(.+)_tests\.rb|)
 
-  # with Minitest::Spec
-  # watch(%r|^spec/(.*)_spec\.rb|)
-  # watch(%r|^lib/(.*)([^/]+)\.rb|)     { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
-  # watch(%r|^spec/spec_helper\.rb|)    { "spec" }
+  watch(%r|^lib/(.*)([^/]+)\.rb|) do |m|
+    "test/#{m[1]}#{m[2]}_tests.rb"
+  end
 
+  watch(%r|^test/test_helper\.rb|) do
+    "test"
+  end
 end
