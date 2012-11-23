@@ -30,16 +30,6 @@ describe Webhookr::Mailchimp::Adapter do
       }.must_be_silent
     end
 
-    it "should return the correct event type" do
-      response = subject.process(@valid_response).first
-      assert_equal(@event_type, response.event_type)
-    end
-
-    it "should return the correct data packet" do
-      response = subject.process(@valid_response).first
-      assert_equal("gerry+agent2@zoocasa.com", response.payload.data.email)
-    end
-
     it "should raise Webhookr::InvalidPayloadError for no packet" do
       lambda {
         subject.process("")
@@ -56,6 +46,43 @@ describe Webhookr::Mailchimp::Adapter do
       lambda {
         subject.process("type=unsubscribe")
       }.must_raise(Webhookr::InvalidPayloadError)
+    end
+
+  end
+
+  describe "it's response" do
+    before do
+      @adapter = Webhookr::Mailchimp::Adapter.new
+    end
+
+    subject { @adapter.process(@valid_response).first }
+
+    it "must respond to service_name" do
+      subject.must_respond_to(:service_name)
+    end
+
+    it "should return the correct service name" do
+      assert_equal(Webhookr::Mailchimp::Adapter::SERVICE_NAME, subject.service_name)
+    end
+
+    it "must respond to event_type" do
+      subject.must_respond_to(:event_type)
+    end
+
+    it "should return the correct event type" do
+      assert_equal(@event_type, subject.event_type)
+    end
+
+    it "must respond to payload" do
+      subject.must_respond_to(:payload)
+    end
+
+    it "must respond to payload.data" do
+      subject.payload.must_respond_to(:data)
+    end
+
+    it "should return the correct data packet" do
+      assert_equal("gerry+agent2@zoocasa.com", subject.payload.data.email)
     end
 
   end

@@ -17,7 +17,7 @@ module Webhookr
 
       def process(raw_response)
         Array.wrap(parse(raw_response)).collect do |p|
-          Webhookr::AdapterResponse.new(p.send(EVENT_KEY), p)
+          Webhookr::AdapterResponse.new(SERVICE_NAME, p.send(EVENT_KEY), p)
         end
       end
 
