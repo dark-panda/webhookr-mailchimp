@@ -52,6 +52,7 @@ describe Webhookr::Mailchimp::Adapter do
 
   describe "it's response" do
     before do
+      @event_type = "unsubscribe"
       @adapter = Webhookr::Mailchimp::Adapter.new
     end
 

@@ -7,6 +7,7 @@ module Webhookr
     class Adapter
       SERVICE_NAME = 'mailchimp'
       EVENT_KEY = "type"
+      RENAMED_EVENT_KEY = "event_key"
       PAYLOAD_KEY = "data"
 
       include Webhookr::Services::Adapter::Base
@@ -17,7 +18,7 @@ module Webhookr
 
       def process(raw_response)
         Array.wrap(parse(raw_response)).collect do |p|
-          Webhookr::AdapterResponse.new(SERVICE_NAME, p.send(EVENT_KEY), p)
+          Webhookr::AdapterResponse.new(SERVICE_NAME, p.send(RENAMED_EVENT_KEY), p)
         end
       end
 
@@ -25,9 +26,19 @@ module Webhookr
 
       def parse(raw_response)
         RecursiveOpenStruct.new(
-          assert_valid_packet(Rack::Utils.parse_nested_query(raw_response)),
+          convert_event_key_to_ruby_friendly_name(
+            assert_valid_packet(
+              Rack::Utils.parse_nested_query(raw_response)
+            )
+          ),
           :recurse_over_arrays => true
         )
+      end
+
+      def convert_event_key_to_ruby_friendly_name(packet)
+        # Ruby 1.8.7 fix for key 'type'
+        rename = { EVENT_KEY => RENAMED_EVENT_KEY }
+        Hash[packet.map {|k, v| [rename[k] || k, v] }]
       end
 
       def assert_valid_packet(parsed_response)

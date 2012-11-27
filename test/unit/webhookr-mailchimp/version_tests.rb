@@ -1,4 +1,5 @@
-require_relative '../../test_helper'
+$: << File.join(File.dirname(__FILE__), %w{ .. .. })
+require 'test_helper'
 
 describe Webhookr::Mailchimp do
   it "must be defined" do
