@@ -18,6 +18,12 @@ describe Webhookr::Mailchimp::Adapter do
       subject.must_respond_to(:process)
     end
 
+    it "should not return an error for a valid packet" do
+      lambda {
+        subject.process(@valid_response)
+      }.must_be_silent
+    end
+
   end
 
   describe "the instance" do
