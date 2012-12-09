@@ -1,4 +1,4 @@
-require 'generators/webhookr/init/init_generator'
+require 'generators/webhookr/init_generator'
 
 module Webhookr
   module Mailchimp
