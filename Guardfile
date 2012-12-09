@@ -1,5 +1,6 @@
 
 guard 'minitest', :test_folders => 'test', :test_file_patterns => '*_tests.rb' do
+  watch(%r|^test/(.+)_test\.rb|)
   watch(%r|^test/(.+)_tests\.rb|)
 
   watch(%r|^lib/(.*)([^/]+)\.rb|) do |m|
