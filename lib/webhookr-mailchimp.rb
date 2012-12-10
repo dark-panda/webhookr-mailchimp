@@ -1,4 +1,5 @@
 require "webhookr"
+require "webhookr-mailchimp/version"
 require "active_support/core_ext/module/attribute_accessors"
 require "recursive_open_struct"
 
