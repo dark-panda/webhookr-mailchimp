@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem "recursive-open-struct", "0.3.1", :github => "gerrypower/recursive-open-struct"
 gem "rake", "~> 10.0"
 gem "minitest"
 gem "minitest-reporters"

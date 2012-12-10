@@ -1,7 +1,7 @@
 require "webhookr"
 require "webhookr-mailchimp/version"
 require "active_support/core_ext/module/attribute_accessors"
-require "recursive_open_struct"
+require "webhookr/ostruct_utils"
 
 module Webhookr
   module Mailchimp
@@ -22,7 +22,7 @@ module Webhookr
           Webhookr::AdapterResponse.new(
             SERVICE_NAME,
             p.fetch(RENAMED_EVENT_KEY),
-            RecursiveOpenStruct.new(p, :recurse_over_arrays => true)
+            OstructUtils.to_ostruct(p)
           )
         end
       end
