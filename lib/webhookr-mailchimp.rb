@@ -18,20 +18,21 @@ module Webhookr
 
       def process(raw_response)
         Array.wrap(parse(raw_response)).collect do |p|
-          Webhookr::AdapterResponse.new(SERVICE_NAME, p.send(RENAMED_EVENT_KEY), p)
+          Webhookr::AdapterResponse.new(
+            SERVICE_NAME,
+            p.fetch(RENAMED_EVENT_KEY),
+            RecursiveOpenStruct.new(p, :recurse_over_arrays => true)
+          )
         end
       end
 
       private
 
       def parse(raw_response)
-        RecursiveOpenStruct.new(
-          convert_event_key_to_ruby_friendly_name(
-            assert_valid_packet(
-              Rack::Utils.parse_nested_query(raw_response)
-            )
-          ),
-          :recurse_over_arrays => true
+        convert_event_key_to_ruby_friendly_name(
+          assert_valid_packet(
+            Rack::Utils.parse_nested_query(raw_response)
+          )
         )
       end
 
