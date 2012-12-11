@@ -1,4 +1,5 @@
 # Webhookr::Mailchimp
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/zoocasa/webhookr-mailchimp)
 
 This gem is a plugin for the [Webhookr gem](https://github.com/zoocasa/webhookr) that enables
 your application to accept [webhooks from Mailchimp](http://apidocs.mailchimp.com/webhooks/).
