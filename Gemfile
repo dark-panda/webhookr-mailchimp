@@ -12,10 +12,6 @@ group :development, :test do
   gem "guard-markdown"
   gem "guard-livereload"
   gem "simplecov", :require => false
-  if RbConfig::CONFIG['host_os'] =~ /^darwin/
-    gem "rb-fsevent"
-    gem "growl"
-  end
 end
 
 if File.exists?('Gemfile.local')
