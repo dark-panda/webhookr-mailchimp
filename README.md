@@ -1,7 +1,7 @@
 # Webhookr::Mailchimp
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/zoocasa/webhookr-mailchimp)
 
-This gem is a plugin for the [Webhookr gem](https://github.com/zoocasa/webhookr) that enables
+This gem is a plugin for [Webhookr](https://github.com/zoocasa/webhookr) that enables
 your application to accept [webhooks from Mailchimp](http://apidocs.mailchimp.com/webhooks/).
 
 ## Installation
@@ -23,14 +23,20 @@ An initializer will be created if you do not have one.
 rails g webhookr:mailchimp:init *initializer_name* -s
 ```
 
-Create a MailChimp handler class for any event that you want to handle. For example
+Run the generator to create an example file to handle MailChimp webhooks.
+
+```console
+rails g webhookr:mailchimp:example_hooks
+```
+
+Or create a MailChimp handler class for any event that you want to handle. For example
 to handle unsubscribes you would create a class as follows:
 
 ```ruby
 class MailChimpHooks
-  def on_unsubscribe(payload)
+  def on_unsubscribe(incoming)
     # Your custom logic goes here.
-    User.unsubscribe_newletter(payload.data.email)
+    User.unsubscribe_newletter(incoming.payload.data.email)
   end
 end
 ```
@@ -45,8 +51,9 @@ the configuration line would look like this:
   Webhookr::Mailchimp::Adapter.config.callback = MailChimpHooks
 ```
 
-To see the list of MailChimp URLs for your application, that you can use to [configure
-MailChimp](http://apidocs.mailchimp.com/webhooks/#configuring-webhooks) for posting webhooks to:
+To see the list of MailChimp URLs for your application can use when you [configure
+MailChimp](http://apidocs.mailchimp.com/webhooks/#configuring-webhooks) webhooks,
+run the provided webhookr rake task:
 
 ```console
 rake webhookr:services
@@ -62,7 +69,6 @@ mailchimp:
 
 ## MailChimp Events & Payload
 
-
 ### Events
 
 All webhook events are supported. For further information on these events, see the
@@ -75,27 +81,27 @@ All webhook events are supported. For further information on these events, see t
   </tr>
   <tr>
     <td>subscribe</td>
-    <td>on_subscribe(payload)</td>
+    <td>on_subscribe(incoming)</td>
   </tr>
   <tr>
     <td>unsubscribe</td>
-    <td>on_unsubscribe(payload)</td>
+    <td>on_unsubscribe(incoming)</td>
   </tr>
   <tr>
     <td>profile</td>
-    <td>on_profile(payload)</td>
+    <td>on_profile(incoming)</td>
   </tr>
   <tr>
     <td>upemail</td>
-    <td>on_upemail(payload)</td>
+    <td>on_upemail(incoming)</td>
   </tr>
   <tr>
     <td>cleaned</td>
-    <td>on_cleaned(payload)</td>
+    <td>on_cleaned(incoming)</td>
   </tr>
   <tr>
     <td>campaign</td>
-    <td>on_campaign(payload)</td>
+    <td>on_campaign(incoming)</td>
   </tr>
 </table>
 
@@ -106,25 +112,22 @@ The payload is the full payload data from as per the
 for ease of access. Examples for the method call unsubscribe:
 
 ```ruby
-  payload.fired_at
-  payload.data.action
-  payload.data.reason
-  payload.data.id
-  payload.data.list_id
-  payload.data.email
-  payload.data.email_type
-  payload.data.merges.EMAIL
-  payload.data.merges.FNAME
-  payload.data.merges.LNAME
-  payload.data.merges.INTERESTS
-  payload.data.ip_opt
-  payload.data.campaign_id
-  payload.data.reason
+  incoming.payload.fired_at
+  incoming.payload.data.action
+  incoming.payload.data.reason
+  incoming.payload.data.id
+  incoming.payload.data.list_id
+  incoming.payload.data.email
+  incoming.payload.data.email_type
+  incoming.payload.data.merges.EMAIL
+  incoming.payload.data.merges.FNAME
+  incoming.payload.data.merges.LNAME
+  incoming.payload.data.merges.INTERESTS
+  incoming.payload.data.ip_opt
+  incoming.payload.data.campaign_id
+  incoming.payload.data.reason
 
 ```
-
-
-
 
 ### <a name="supported_services"></a>Supported Service - MailChimp
 
