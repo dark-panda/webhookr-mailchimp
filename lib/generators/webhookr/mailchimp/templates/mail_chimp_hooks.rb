@@ -3,7 +3,7 @@ class MailChimpHooks
   # All 'on_' handlers are optional. Omit any you do not require.
 
   def on_subscribe(incoming)
-    payload = payload
+    payload = incoming.payload
     puts payload.fired_at
     puts payload.data.id
     puts payload.data.list_id
@@ -18,7 +18,7 @@ class MailChimpHooks
   end
 
   def on_unsubscribe(incoming)
-    payload = payload
+    payload = incoming.payload
     puts payload.fired_at
     puts payload.data.action
     puts payload.data.reason
@@ -36,7 +36,7 @@ class MailChimpHooks
   end
 
   def on_profile(incoming)
-    payload = payload
+    payload = incoming.payload
     puts payload.fired_at
     puts payload.data.id
     puts payload.data.list_id
@@ -50,7 +50,7 @@ class MailChimpHooks
   end
 
   def on_upemail(incoming)
-    payload = payload
+    payload = incoming.payload
     puts payload.fired_at
     puts payload.data.list_id
     puts payload.data.new_id
@@ -59,7 +59,7 @@ class MailChimpHooks
   end
 
   def on_cleaned(incoming)
-    payload = payload
+    payload = incoming.payload
     puts payload.fired_at
     puts payload.data.list_id
     puts payload.data.campaign_id
@@ -68,7 +68,7 @@ class MailChimpHooks
   end
 
   def on_campaign(incoming)
-    payload = payload
+    payload = incoming.payload
     puts payload.fired_at
     puts payload.data.id
     puts payload.data.subject
