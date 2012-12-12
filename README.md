@@ -149,6 +149,21 @@ Pending:
 
 * MRI 2.0
 
+### Versioning
+This library aims to adhere to [Semantic Versioning 2.0.0](http://semver.org/). Violations of this scheme should be reported as
+bugs. Specifically, if a minor or patch version is released that breaks backward compatibility, that
+version should be immediately yanked and/or a new version should be immediately released that restores
+compatibility. Breaking changes to the public API will only be introduced with new major versions. As a
+result of this policy, once this gem reaches a 1.0 release, you can (and should) specify a dependency on
+this gem using the [Pessimistic Version Constraint](http://docs.rubygems.org/read/chapter/16#page74) with
+two digits of precision. For example:
+
+    spec.add_dependency 'webhookr-mailchimp', '~> 1.0'
+
+While this gem is currently a 0.x release, suggestion is to require the exact version that works for your code:
+
+    spec.add_dependency 'webhookr-mailchimp', '0.0.1'
+
 ## License
 
 webhookr-mailchimp is released under the [MIT license](http://www.opensource.org/licenses/MIT).
